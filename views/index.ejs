@@ -1,0 +1,10 @@
+<% 
+const header = '<h1>Currency Exchange</h1>';
+const body = `
+  <p>
+    <a href="/currencies">Currencies</a> |
+    <a href="/exchange-rates">Exchange Rates</a>
+  </p>
+`;
+%>
+<%- include('layout', { header: header, body: body, isAuthenticated: isAuthenticated }) %>

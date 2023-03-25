@@ -1,0 +1,13 @@
+<% 
+const header = '<h1>Currency Exchange</h1>';
+const body = `
+  <form action="/login" method="post">
+    <label for="email">Email:</label>
+    <input type="text" name="email" required>
+    <label for="password">Password:</label>
+    <input type="password" name="password" required>
+    <button type="submit">Login</button>
+  </form>
+`;
+%>
+<%- include('layout', { header: header, body: body }) %>

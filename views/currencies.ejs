@@ -1,0 +1,30 @@
+<% 
+const header = '<h1>Currencies</h1>';
+const body = `
+  <% if (isAuthenticated) { %>
+    <form action="/currencies" method="post">
+      <label for="name">Currency Name:</label>
+      <input type="text" name="name" required>
+      <button type="submit">Add Currency</button>
+    </form>
+  <% } %>
+  <ul>
+` %>
+    <% currencies.forEach(currency => { %>
+      <li>
+        <%= currency.name %>
+        <% if (isAuthenticated) { %>
+          <a href="/currencies/edit/<%= currency.id %>">Edit</a>
+          <form action="/currencies/delete/<%= currency.id %>" method="post" style="display:inline;">
+            <button type="submit">Delete</button>
+          </form>
+        <% } %>
+      </li>
+    <% }) %>
+<%
+const footer = `
+  </ul>
+  <p><a href="/">Back</a></p>
+`;
+%>
+<%- include('layout', { header: header, body: body + footer, isAuthenticated: isAuthenticated }) %>

@@ -1,0 +1,36 @@
+<% const header = '<h1>Exchange Rates</h1>'; %>
+<% const body = '
+  <form action="/exchange-rates" method="post">
+    <label for="fromCurrency">From Currency:</label>
+    <select name="fromCurrency" required>
+      <% currencies.forEach(currency => { %>
+        <option value="<%= currency.id %>"><%= currency.name %></option>
+      <% }) %>
+    </select>
+    <label for="toCurrency">To Currency:</label>
+    <select name="toCurrency" required>
+      <% currencies.forEach(currency => { %>
+        <option value="<%= currency.id %>"><%= currency.name %></option>
+      <% }) %>
+    </select>
+    <label for="date">Date:</label>
+    <input type="date" name="date" required>
+    <label for="rate">Rate:</label>
+    <input type="number" step="any" name="rate" required>
+    <button type="submit">Add Exchange Rate</button>
+  </form>
+  <ul>
+    <% exchangeRates.forEach(exchangeRate => { %>
+      <li>
+        <%= exchangeRate.fromCurrency %> to <%= exchangeRate.toCurrency %> - <%= exchangeRate.date %> - <%= exchangeRate.rate %>
+        <% if (isAuthenticated) { %>
+          <form action="/exchange-rates/delete/<%= exchangeRate.id %>" method="post" style="display:inline;">
+            <button type="submit">Delete</button>
+          </form>
+        <% } %>
+      </li>
+    <% }) %>
+  </ul>
+  <p><a href="/">Back</a></p>
+';%>
+<%- include('layout', { header: header, body: body, isAuthenticated: isAuthenticated }) %>
