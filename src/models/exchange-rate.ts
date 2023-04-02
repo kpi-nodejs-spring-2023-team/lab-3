@@ -4,10 +4,10 @@ export class ExchangeRate {
   id: number;
   fromCurrency: Currency;
   toCurrency: Currency;
-  date: string;
+  date: Date;
   rate: number;
 
-  constructor(id: number, fromCurrency: Currency, toCurrency: Currency, date: string, rate: number) {
+  constructor(id: number, fromCurrency: Currency, toCurrency: Currency, date: Date, rate: number) {
     this.id = id;
     this.fromCurrency = fromCurrency;
     this.toCurrency = toCurrency;

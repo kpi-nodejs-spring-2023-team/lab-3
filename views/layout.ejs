@@ -6,7 +6,7 @@
   <title>Currency Exchange</title>
 </head>
 <body>
-  <% if (isAuthenticated) { %>
+  <% if (!isAuthenticated) { %>
   <a href="/login">Login</a>
   <% } %>
   <%- header %>

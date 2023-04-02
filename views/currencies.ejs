@@ -1,6 +1,4 @@
-<% 
-const header = '<h1>Currencies</h1>';
-const body = `
+<h1>Currencies</h1>
   <% if (isAuthenticated) { %>
     <form action="/currencies" method="post">
       <label for="name">Currency Name:</label>
@@ -9,10 +7,10 @@ const body = `
     </form>
   <% } %>
   <ul>
-` %>
     <% currencies.forEach(currency => { %>
       <li>
         <%= currency.name %>
+        <a href="/currencies/<%= currency.id %>">History</a>
         <% if (isAuthenticated) { %>
           <a href="/currencies/edit/<%= currency.id %>">Edit</a>
           <form action="/currencies/delete/<%= currency.id %>" method="post" style="display:inline;">
@@ -20,11 +18,7 @@ const body = `
           </form>
         <% } %>
       </li>
-    <% }) %>
-<%
-const footer = `
+    <% }); %>
   </ul>
   <p><a href="/">Back</a></p>
-`;
-%>
-<%- include('layout', { header: header, body: body + footer, isAuthenticated: isAuthenticated }) %>
+

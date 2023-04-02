@@ -1,5 +1,5 @@
 import { User } from "../models/user";
-import jwt from 'jsonwebtoken';
+import jwt, {JwtPayload} from 'jsonwebtoken';
 
 export class UserService {
     private lastId: number = 0;
@@ -26,6 +26,12 @@ export class UserService {
     }
 
     isTokenValid(token: string) {
+        let verifiedToken = jwt.verify(token, this.secret);
 
+        if (verifiedToken) {
+            return true;
+        }
+
+        return false;
     }
 }

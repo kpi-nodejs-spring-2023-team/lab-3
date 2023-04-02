@@ -6,19 +6,22 @@ export class CurrencyService {
 
     constructor() {
         this.lastId = 0;
-        this.currencies =  [];
+        this.currencies = [];
+        this.addCurrency("UAH");
+        this.addCurrency("USD");
     }
 
     getCurrencies() {
         return this.currencies;
     }
 
-    getCurrencyById(id: number) {
-        return this.currencies.find(c => c.id === id);
+    getCurrencyById(id: number)
+    {
+        return this.currencies.find(c => c.id == id);
     }
 
     addCurrency(name: string) {
-        var currency = new Currency(this.lastId++, name);
+        let currency = new Currency(this.lastId++, name);
         this.currencies.push(currency);
 
         return currency.id;
@@ -31,6 +34,9 @@ export class CurrencyService {
 
     deleteCurrencyById(id: number) {
         let index = this.currencies.findIndex(c => c.id === id);
-        this.currencies.splice(index);
+
+        if (index > -1) {
+            this.currencies.splice(index, 1);
+        }
     }
 }

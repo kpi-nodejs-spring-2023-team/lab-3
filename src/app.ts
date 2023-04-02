@@ -73,6 +73,18 @@ app.get('/currencies', (req, res) => {
   res.render('currencies', { currencies: currencyService.getCurrencies(), isAuthenticated: isTokenValid(token) });
 });
 
+app.get('/currencies/:id', (req, res) => {
+  let currencyId = parseInt(req.params.id);
+  let currency = currencyService.getCurrencyById(currencyId);
+  let fromDateString = <string>req.query.fromDate;
+  let toDateString = <string>req.query.toDate;
+  const token = req.cookies.token;
+
+  let exchangeRates = exchangeRateService.getExchangeRatesForCurrencyOnDates(currencyId, new Date(fromDateString), new Date(toDateString))
+
+  res.render('currency-history', { currency: currency, exchangeRates: exchangeRates, isAuthenticated: isTokenValid(token), fromDate: fromDateString, toDate: toDateString });
+});
+
 app.post('/currencies', checkAuthenticated, (req, res) => {
   currencyService.addCurrency(req.body.name);
   res.redirect('/currencies');
@@ -95,11 +107,14 @@ app.post('/currencies/delete/:id', checkAuthenticated, (req, res) => {
 
 app.get('/exchange-rates', (req, res) => {
   const token = req.cookies.token;
-  res.render('exchange-rates', { exchangeRates: exchangeRateService.getExchangeRates(), isAuthenticated: isTokenValid(token)});
+  let currencies = currencyService.getCurrencies();
+  let exchangeRates = exchangeRateService.getExchangeRatesOnDay(new Date());
+
+  res.render('exchange-rates', { currencies: currencies, exchangeRates: exchangeRates, isAuthenticated: isTokenValid(token)});
 });
 
 app.post('/exchange-rates', checkAuthenticated, (req, res) => {
-  exchangeRateService.addExchangeRate(req.body.fromCurrency, req.body.toCurrency, req.body.date, parseFloat(req.body.rate));
+  exchangeRateService.addExchangeRate(new Date(req.body.date), req.body.fromCurrency, req.body.toCurrency, parseFloat(req.body.rate));
   res.redirect('/exchange-rates');
 });
 

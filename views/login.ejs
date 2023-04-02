@@ -1,5 +1,5 @@
 <% 
-const header = '<h1>Currency Exchange</h1>';
+const header = '<h1>Login</h1>';
 const body = `
   <form action="/login" method="post">
     <label for="email">Email:</label>
@@ -10,4 +10,4 @@ const body = `
   </form>
 `;
 %>
-<%- include('layout', { header: header, body: body }) %>
+<%- include('layout', { header: header, body: body, isAuthenticated: false }) %>
