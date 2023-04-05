@@ -1,53 +1,74 @@
-<h1>Exchange Rates</h1>
-  <% if (isAuthenticated) { %>
-  <form action="/exchange-rates" method="post">
-    <label for="fromCurrency">From Currency:</label>
-    <select name="fromCurrency" required>
-      <% currencies.forEach(currency => { %>
-        <option value="<%= currency.id %>"><%= currency.name %></option>
-      <% }) %>
-    </select>
-      <br>
-    <label for="toCurrency">To Currency:</label>
-    <select name="toCurrency" required>
-      <% currencies.forEach(currency => { %>
-        <option value="<%= currency.id %>"><%= currency.name %></option>
-      <% }) %>
-    </select>
-      <br>
-    <label for="date">Date:</label>
-    <input type="datetime-local" name="date" required>
-      <br>
-    <label for="rate">Rate:</label>
-    <input type="number" step="any" name="rate" required>
-      <br>
-    <button type="submit">Add Exchange Rate</button>
-  </form>
-  <% } %>
-  <table>
+<!DOCTYPE html>
+<html lang="en">
+<%- include('common/head') %>
+
+<body>
+
+<header>
+    <%- include('common/header', { isAuthenticated: isAuthenticated }) %>
+</header>
+
+<main>
+    <h1>Exchange Rates</h1>
+
+    <% if (isAuthenticated) { %>
+        <form action="/exchange-rates" method="post">
+            <label for="fromCurrency">From Currency:</label>
+            <select name="fromCurrency" required>
+                <% currencies.forEach(currency => { %>
+                    <option value="<%= currency.id %>"><%= currency.name %></option>
+                <% }) %>
+            </select>
+            <br>
+            <label for="toCurrency">To Currency:</label>
+            <select name="toCurrency" required>
+                <% currencies.forEach(currency => { %>
+                    <option value="<%= currency.id %>"><%= currency.name %></option>
+                <% }) %>
+            </select>
+            <br>
+            <label for="date">Date:</label>
+            <input type="datetime-local" name="date" required>
+            <br>
+            <label for="rate">Rate:</label>
+            <input type="number" step="any" name="rate" required>
+            <br>
+            <button type="submit">Add Exchange Rate</button>
+        </form>
+    <% } %>
+
+    <table>
         <tr>
             <th>Date and time</th>
             <th>From Currency</th>
             <th>To Currency</th>
             <th>Rate</th>
-            <% if (isAuthenticated) { %> <th></th> <% } %>
+            <% if (isAuthenticated) { %>
+                <th></th>
+            <% } %>
         </tr>
-    <% exchangeRates.forEach(exchangeRate => { %>
-      <tr>
-          <td><%= exchangeRate.date.toISOString() %></td>
-          <td><%= exchangeRate.fromCurrency.name %></td>
-          <td><%= exchangeRate.toCurrency.name %></td>
-          <td><%= exchangeRate.rate %></td>
+        <% exchangeRates.forEach(exchangeRate => { %>
+            <tr>
+                <td><%= exchangeRate.date.toISOString() %></td>
+                <td><%= exchangeRate.fromCurrency.name %></td>
+                <td><%= exchangeRate.toCurrency.name %></td>
+                <td><%= exchangeRate.rate %></td>
 
-        <% if (isAuthenticated) { %>
-          <td>
-              <a href="/exchange-rates/edit/<%= exchangeRate.id %>">Edit</a>
-              <form action="/exchange-rates/delete/<%= exchangeRate.id %>" method="post" style="display:inline;">
-                  <button type="submit">Delete</button>
-              </form>
-          </td>
-        <% } %>
-      </tr>
-    <% }) %>
-  </table>
-  <p><a href="/">Back</a></p>
+                <% if (isAuthenticated) { %>
+                    <td>
+                        <a href="/exchange-rates/edit/<%= exchangeRate.id %>">Edit</a>
+                        <form action="/exchange-rates/delete/<%= exchangeRate.id %>" method="post"
+                              style="display:inline;">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                <% } %>
+            </tr>
+        <% }) %>
+    </table>
+    <p><a href="/">Back</a></p>
+</main>
+
+</body>
+</html>
+

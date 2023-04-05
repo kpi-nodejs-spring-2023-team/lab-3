@@ -1,7 +1,22 @@
-<h1>Edit Exchange Rate</h1>
+<!DOCTYPE html>
+<html lang="en">
+<%- include('common/head') %>
 
-<form action="/exchange-rates/edit/<%= exchangeRate.id %>" method="post">
-    <label for="name">Rate:</label>
-    <input type="number" name="rate" value="<%= exchangeRate.rate %>" required>
-    <button type="submit">Save</button>
-</form>
+<body>
+
+<header>
+    <%- include('common/header', { isAuthenticated: isAuthenticated }) %>
+</header>
+
+<main>
+    <h1>Edit Exchange Rate</h1>
+
+    <form action="/exchange-rates/edit/<%= exchangeRate.id %>" method="post">
+        <label for="name">Rate:</label>
+        <input type="number" name="rate" value="<%= exchangeRate.rate %>" required>
+        <button type="submit">Save</button>
+    </form>
+</main>
+
+</body>
+</html>

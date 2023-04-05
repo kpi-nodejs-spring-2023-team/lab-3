@@ -1,7 +1,22 @@
-<h1>Edit Currency</h1>
+<!DOCTYPE html>
+<html lang="en">
+<%- include('common/head') %>
 
-<form action="/currencies/edit/<%= currency.id %>" method="post">
-  <label for="name">Name:</label>
-  <input type="text" name="name" value="<%= currency.name %>" required>
-  <button type="submit">Save</button>
-</form>
+<body>
+
+<header>
+    <%- include('common/header', { isAuthenticated: isAuthenticated }) %>
+</header>
+
+<main>
+    <h1>Edit Currency</h1>
+
+    <form action="/currencies/edit/<%= currency.id %>" method="post">
+        <label for="name">Name:</label>
+        <input type="text" name="name" value="<%= currency.name %>" required>
+        <button type="submit">Save</button>
+    </form>
+</main>
+
+</body>
+</html>

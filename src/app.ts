@@ -64,13 +64,14 @@ app.post('/login', checkNotAuthenticated, (req, res) => {
 });
 
 app.get('/logout', (req, res) => {
-  sessionStorage.removeItem("token");
+  res.cookie('token', '');
   res.redirect('/');
 });
 
 app.get('/currencies', (req, res) => {
   const token = req.cookies.token;
-  res.render('currencies', { currencies: currencyService.getCurrencies(), isAuthenticated: isTokenValid(token) });
+  let currencies = currencyService.getCurrencies()
+  res.render('currencies', { currencies: currencies, isAuthenticated: isTokenValid(token) });
 });
 
 app.get('/currencies/:id', (req, res) => {
@@ -86,7 +87,8 @@ app.get('/currencies/:id', (req, res) => {
 });
 
 app.post('/currencies', checkAuthenticated, (req, res) => {
-  currencyService.addCurrency(req.body.name);
+  let name = req.body.name;
+  currencyService.addCurrency(name);
   res.redirect('/currencies');
 });
 
@@ -101,7 +103,8 @@ app.post('/currencies/edit/:id', checkAuthenticated, (req, res) => {
 });
 
 app.post('/currencies/delete/:id', checkAuthenticated, (req, res) => {
-  currencyService.deleteCurrencyById(parseInt(req.params.id));
+  let id = parseInt(req.params.id);
+  currencyService.deleteCurrencyById(id);
   res.redirect('/currencies');
 });
 
@@ -114,12 +117,19 @@ app.get('/exchange-rates', (req, res) => {
 });
 
 app.post('/exchange-rates', checkAuthenticated, (req, res) => {
-  exchangeRateService.addExchangeRate(new Date(req.body.date), req.body.fromCurrency, req.body.toCurrency, parseFloat(req.body.rate));
+  let date = new Date(req.body.date);
+  let fromCurrencyId = req.body.fromCurrency;
+  let toCurrencyId = req.body.toCurrency;
+  let rate = parseFloat(req.body.rate);
+
+  exchangeRateService.addExchangeRate(date, fromCurrencyId, toCurrencyId, rate);
+
   res.redirect('/exchange-rates');
 });
 
 app.post('/exchange-rates/delete/:id', checkAuthenticated, (req, res) => {
-  exchangeRateService.deleteExchangeRateById(parseInt(req.params.id));
+  let id = parseInt(req.params.id);
+  exchangeRateService.deleteExchangeRateById(id);
   res.redirect('/exchange-rates');
 });
 

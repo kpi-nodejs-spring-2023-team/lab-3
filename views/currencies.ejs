@@ -1,24 +1,41 @@
-<h1>Currencies</h1>
-  <% if (isAuthenticated) { %>
-    <form action="/currencies" method="post">
-      <label for="name">Currency Name:</label>
-      <input type="text" name="name" required>
-      <button type="submit">Add Currency</button>
-    </form>
-  <% } %>
-  <ul>
-    <% currencies.forEach(currency => { %>
-      <li>
-        <%= currency.name %>
-        <a href="/currencies/<%= currency.id %>">History</a>
-        <% if (isAuthenticated) { %>
-          <a href="/currencies/edit/<%= currency.id %>">Edit</a>
-          <form action="/currencies/delete/<%= currency.id %>" method="post" style="display:inline;">
-            <button type="submit">Delete</button>
-          </form>
-        <% } %>
-      </li>
-    <% }); %>
-  </ul>
-  <p><a href="/">Back</a></p>
+<!DOCTYPE html>
+<html lang="en">
+<%- include('common/head') %>
 
+<body>
+
+<header>
+    <%- include('common/header', { isAuthenticated: isAuthenticated }) %>
+</header>
+
+<main>
+    <h1>Currencies</h1>
+
+    <% if (isAuthenticated) { %>
+        <form action="/currencies" method="post">
+            <label for="name">Currency Name:</label>
+            <input type="text" name="name" required>
+            <button type="submit">Add Currency</button>
+        </form>
+    <% } %>
+
+    <ul>
+        <% currencies.forEach(currency => { %>
+            <li>
+                <%= currency.name %>
+                <a href="/currencies/<%= currency.id %>">History</a>
+                <% if (isAuthenticated) { %>
+                    <a href="/currencies/edit/<%= currency.id %>">Edit</a>
+                    <form action="/currencies/delete/<%= currency.id %>" method="post" style="display:inline;">
+                        <button type="submit">Delete</button>
+                    </form>
+                <% } %>
+            </li>
+        <% }); %>
+    </ul>
+    <p><a href="/">Back</a></p>
+
+</main>
+
+</body>
+</html>
