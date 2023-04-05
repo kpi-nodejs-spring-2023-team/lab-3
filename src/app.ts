@@ -134,7 +134,7 @@ app.get('/exchange-rates/edit/:id', checkAuthenticated, (req, res) => {
 
 app.post('/exchange-rate/edit/:id', checkAuthenticated, (req, res) => {
   let id =  parseInt(req.params.id);
-  let rate = parseFloat(req.params.rate);
+  let rate = parseFloat(req.body.rate);
   exchangeRateService.updateExchangeRate(id, rate);
 
   res.redirect('/exchange-rates');
