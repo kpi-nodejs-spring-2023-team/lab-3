@@ -60,7 +60,7 @@ app.post('/login', checkNotAuthenticated, (req, res) => {
   let token = userService.login(email, password);
   res.cookie('token', token);
 
-  res.redirect("/")
+  res.redirect("/");
 });
 
 app.get('/logout', (req, res) => {
@@ -93,7 +93,8 @@ app.post('/currencies', checkAuthenticated, (req, res) => {
 });
 
 app.get('/currencies/edit/:id', checkAuthenticated, (req, res) => {
-  res.render('currency-edit', { currency: currencyService.getCurrencyById(parseInt(req.params.id)) });
+  const token = req.cookies.token;
+  res.render('currency-edit', { currency: currencyService.getCurrencyById(parseInt(req.params.id)), isAuthenticated: isTokenValid(token) });
 });
 
 app.post('/currencies/edit/:id', checkAuthenticated, (req, res) => {

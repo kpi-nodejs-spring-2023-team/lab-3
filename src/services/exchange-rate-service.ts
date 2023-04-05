@@ -48,23 +48,36 @@ export class ExchangeRateService {
             throw new Error("ToCurrency is missing");
         }
         
-        let straightExchangeRate = new ExchangeRate(this.lastId++, fromCurrency, toCurrency, date, rate);
-        this.exchangeRates.push(straightExchangeRate);
+        let straightExchangeRate = new ExchangeRate(this.lastId++, fromCurrency, toCurrency, date, rate, 0);
+        let reversedExchangeRate = new ExchangeRate(this.lastId++, toCurrency, fromCurrency, date, 1 / rate, 0);
 
-        let reversedExchangeRate = new ExchangeRate(this.lastId++, toCurrency, fromCurrency, date, 1 / rate);
+        straightExchangeRate.reversedRateId = reversedExchangeRate.id;
+        reversedExchangeRate.reversedRateId = straightExchangeRate.id;
+
+        this.exchangeRates.push(straightExchangeRate);
         this.exchangeRates.push(reversedExchangeRate);
     }
 
     updateExchangeRate(exchangeRateId: number, rate: number) {
         let index = this.exchangeRates.findIndex(c => c.id === exchangeRateId);
         this.exchangeRates[index].rate = rate;
+
+        let reversedIndex = this.exchangeRates.findIndex(c => c.id === this.exchangeRates[index].reversedRateId);
+        this.exchangeRates[reversedIndex].rate = 1 / rate;
     }
 
     deleteExchangeRateById(id: number) {
         let index = this.exchangeRates.findIndex(c => c.id === id);
 
         if (index > -1) {
+            let reversedId = this.exchangeRates[index].reversedRateId;
             this.exchangeRates.splice(index, 1);
+
+            let reversedIndex = this.exchangeRates.findIndex(c => c.id === reversedId);
+
+            if (reversedIndex > -1) {
+                this.exchangeRates.splice(reversedIndex, 1);
+            }
         }
     }
 }
