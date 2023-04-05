@@ -55,6 +55,11 @@ export class ExchangeRateService {
         this.exchangeRates.push(reversedExchangeRate);
     }
 
+    updateExchangeRate(exchangeRateId: number, rate: number) {
+        let index = this.exchangeRates.findIndex(c => c.id === exchangeRateId);
+        this.exchangeRates[index].rate = rate;
+    }
+
     deleteExchangeRateById(id: number) {
         let index = this.exchangeRates.findIndex(c => c.id === id);
 

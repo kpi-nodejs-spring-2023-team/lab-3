@@ -9,11 +9,11 @@
 </header>
 
 <main>
-    <h1>Edit Exchange Rate</h1>
+    <h1>Edit Exchange Rate </h1>
 
-    <form action="/exchange-rates/edit/<%= exchangeRate.id %>" method="post">
-        <label for="name">Rate:</label>
-        <input type="number" name="rate" value="<%= exchangeRate.rate %>" required>
+    <form action="/exchange-rate/edit/<%= exchangeRate.id %>" method="post">
+        <label for="rate">Rate:</label>
+        <input type="number" name="rate" step="any" value="<%= exchangeRate.rate %>" required>
         <button type="submit">Save</button>
     </form>
 </main>

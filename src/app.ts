@@ -127,6 +127,20 @@ app.post('/exchange-rates', checkAuthenticated, (req, res) => {
   res.redirect('/exchange-rates');
 });
 
+app.get('/exchange-rates/edit/:id', checkAuthenticated, (req, res) => {
+  const token = req.cookies.token;
+  res.render('exchange-rate-edit', { exchangeRate: exchangeRateService.getExchangeRateById(parseInt(req.params.id)), isAuthenticated: isTokenValid(token) });
+});
+
+app.post('/exchange-rate/edit/:id', checkAuthenticated, (req, res) => {
+  let id =  parseInt(req.params.id);
+  let rate = parseFloat(req.params.rate);
+  exchangeRateService.updateExchangeRate(id, rate);
+
+  res.redirect('/exchange-rates');
+});
+
+
 app.post('/exchange-rates/delete/:id', checkAuthenticated, (req, res) => {
   let id = parseInt(req.params.id);
   exchangeRateService.deleteExchangeRateById(id);
